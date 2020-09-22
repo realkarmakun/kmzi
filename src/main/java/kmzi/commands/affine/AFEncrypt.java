@@ -10,13 +10,13 @@ import java.util.Vector;
 import java.util.concurrent.Callable;
 
 
-@CommandLine.Command(name = "encrypt", aliases = "e")
+@CommandLine.Command(name = "encrypt", aliases = "e", description = "Шифрование")
 public class AFEncrypt implements Callable<Integer> {
 
-    @CommandLine.Parameters()
+    @CommandLine.Parameters(description = "Имя файла который надо зашифровать")
     public File file;
 
-    @CommandLine.Option(names = {"-o", "--output"})
+    @CommandLine.Option(names = {"-o", "--output"}, description = "Имя результирующего файла")
     public String outputFileName = "output.txt";
 
     @CommandLine.Option(names = {"-k", "--key"}, split = ",", description = "Ключ для шифрования. " +

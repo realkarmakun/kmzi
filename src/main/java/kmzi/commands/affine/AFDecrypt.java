@@ -9,14 +9,14 @@ import java.util.concurrent.Callable;
 
 import static kmzi.utils.tools.modInverse;
 
-@CommandLine.Command(name = "decrypt", aliases = "d")
+@CommandLine.Command(name = "decrypt", aliases = "d", description = "Расшифрование")
 public class AFDecrypt implements Callable<Integer> {
 
-    @CommandLine.Parameters()
+    @CommandLine.Parameters(description = "Имя файла который надо зашифровать")
     public File file;
 
-    @CommandLine.Option(names = {"-o", "--output"})
-    public String outputFileName = "output.txt";
+    @CommandLine.Option(names = {"-o", "--output"}, description = "Имя результирующего файла")
+    public String outputFileName = "output";
 
     @CommandLine.Option(names = {"-k", "--key"}, split = ",", description = "Ключ для шифрования. " +
             "Например для передачи ключа (1,2) введите -k 1,2", required = true)
