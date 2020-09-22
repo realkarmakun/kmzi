@@ -16,7 +16,7 @@ public class AFDecrypt implements Callable<Integer> {
     public File file;
 
     @CommandLine.Option(names = {"-o", "--output"})
-    public String outputFileName;
+    public String outputFileName = "output.txt";
 
     @CommandLine.Option(names = {"-k", "--key"}, split = ",", description = "Ключ для шифрования. " +
             "Например для передачи ключа (1,2) введите -k 1,2", required = true)
