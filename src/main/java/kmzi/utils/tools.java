@@ -9,4 +9,5 @@ public class tools {
                 return x;
         return 1;
     }
+
 }

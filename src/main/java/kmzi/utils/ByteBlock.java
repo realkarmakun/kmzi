@@ -17,6 +17,8 @@ public class ByteBlock {
         this.blockData[index] = data;
     }
 
+    public byte getAt(int index) { return this.blockData[index]; }
+
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < size; i++) {
@@ -63,6 +65,7 @@ public class ByteBlock {
             }
         }
     }
+
 
 
 
