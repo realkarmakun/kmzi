@@ -26,6 +26,8 @@ public class PseudorandomGen implements Callable<Integer> {
     @CommandLine.Option(names = {"-x"}, description = "Значение x(0)", required = true)
     public Integer x;
 
+
+
     @Override
     public Integer call() throws Exception {
         // Счетчики четных нечетных
@@ -80,7 +82,9 @@ public class PseudorandomGen implements Callable<Integer> {
         System.out.println("Количетсво неустановленных бит (нули): " + (sequence.size() - amountOfSetBits));
         System.out.println("Нечетные числа: " + odd);
         System.out.println("Четные числа: " + even);
+
         System.out.println("Бинарный вид: ");
+        //System.out.println(Arrays.toString(sequence.toByteArray()));
         printBitSetAsBinaryString(sequence);
 
         return 0;
@@ -97,13 +101,10 @@ public class PseudorandomGen implements Callable<Integer> {
 
     // Печать BitSet как бинарной строки
     public void printBitSetAsBinaryString(BitSet bitSet) {
-        for (int i = 0; i < bitSet.size(); i++) {
-            if (bitSet.get(i)) {
-                System.out.print("1");
-            } else {
-                System.out.print("0");
-            }
+        byte[] bitSetAsByteArray = bitSet.toByteArray();
+        for (int i = 0; i < bitSetAsByteArray.length; i++) {
+            System.out.println(i + " байт: " +(bitSetAsByteArray[i]) + " | " + Integer.toBinaryString(bitSetAsByteArray[i] & 0xFF));
         }
-        System.out.print("\n");
+
     }
 }
