@@ -103,8 +103,9 @@ public class PseudorandomGen implements Callable<Integer> {
     public void printBitSetAsBinaryString(BitSet bitSet) {
         byte[] bitSetAsByteArray = bitSet.toByteArray();
         for (int i = 0; i < bitSetAsByteArray.length; i++) {
-            System.out.println(i + " байт: " +(bitSetAsByteArray[i]) + " | " + Integer.toBinaryString(bitSetAsByteArray[i] & 0xFF));
+            System.out.print(Integer.toBinaryString(bitSetAsByteArray[i] & 0xFF) + "|");
         }
+        System.out.print("\n");
 
     }
 }
