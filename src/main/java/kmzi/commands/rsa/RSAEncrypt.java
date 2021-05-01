@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
-import static kmzi.commands.rsa.RSACipher.*;
+import static kmzi.utils.tools.*;
 
 @CommandLine.Command(name = "encrypt", aliases = "e", description = "Шифрование через RSA")
 public class RSAEncrypt implements Callable<Integer> {
@@ -30,60 +30,63 @@ public class RSAEncrypt implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
 
-        int ee;
+        int eCandidate;
+        // Переберем пары числе e, d для исходных q и p
         System.out.println("Варианты пар (открытый ключ, закрытый ключ) для данных параметров p и q:");
-        // подбираем пары чисел e,d для данных q,p
         for (int i=2000; i<2020; i++){
-            ee=e(p, q, i);
-            if(ee!=-1) System.out.println("e="+ee+" d="+d(p, q, ee));
+            eCandidate= getE(p, q, i);
+            if(eCandidate!=-1) {
+                System.out.println("e=" + eCandidate + " d=" + getD(p, q, eCandidate));
+            }
         }
         int N = p*q;
         Scanner in = new Scanner(System.in);
         System.out.print("Введите открытый ключ: ");
         int e = in.nextInt();
-
-        byte[] byteArray = Files.readAllBytes(inputFile.toPath());
-
-        StringBuilder strB= new StringBuilder();
-        // в цикле собирается строка битов в строку strB
-        for (byte b : byteArray) {
+        
+        byte[] inputFileAsByteArray = Files.readAllBytes(inputFile.toPath());
+        
+        // Создадим строку из байтов
+        StringBuilder bitsAsString= new StringBuilder();
+        for (byte b : inputFileAsByteArray) {
             if (b >= 0) {
-                strB.append(String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0'));
+                bitsAsString.append(String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0'));
             }
             if (b < 0) {
                 String str = Integer.toBinaryString(b);
                 str = str.substring(24);
-                strB.append(str);
+                bitsAsString.append(str);
             }
         }
-
+        
+        // N в бинарном виде
         StringBuilder resultString= new StringBuilder();
-        String biN=Integer.toBinaryString(N);
-        while (strB.length()%(biN.length()-1)!=0){
-            strB.insert(0, "0");
+        String binaryN=Integer.toBinaryString(N);
+        while ( bitsAsString.length() % (binaryN.length() - 1)!= 0 ) {
+            bitsAsString.insert(0, "0");
         }
-        // строку битов в массив
-        int[] rez=str_arr2(strB.toString());
-        for(int i=0; i<rez.length; i++){
-            int [] mass=new int[biN.length()-1];
-            if(i<rez.length+1-(biN.length()-1)){
-                System.arraycopy(rez, i, mass, 0, biN.length() - 1);
-                int C=BiTen(mass);
+
+        // Строку битов в массив
+        int[] bitsArray = stringToBitArray(bitsAsString.toString());
+        for (int i=0; i < bitsArray.length; i++) {
+            int [] mass=new int[binaryN.length()-1];
+            if ( i < bitsArray.length+1-(binaryN.length()-1) ) {
+                System.arraycopy(bitsArray, i, mass, 0, binaryN.length() - 1);
+                int C= binaryToMandatory(mass);
                 BigInteger n= new BigInteger(String.valueOf(N));
                 BigInteger c= new BigInteger(String.valueOf(C));
                 BigInteger r= (c.pow(e)).mod(n);
                 StringBuilder str= new StringBuilder(r.toString(2));
-                while (str.length()<biN.length()) {
+                while (str.length()<binaryN.length()) {
                     str.insert(0, "0");
                 }
                 resultString.append(str);
-                i+=biN.length()-2;}
+                i+=binaryN.length()-2;}
         }
-        // результирующую строку в массив
-        int [] result = str_arr2(resultString.toString());
-        // массив битов в массив байтов
-        byte[] mass = inByte(result);
-        // запись в файл
+        int [] result = stringToBitArray(resultString.toString());
+        // Массив битов в массив байтов
+        byte[] mass = asByte(result);
+        // Запишем в файл
         FileOutputStream fos = new FileOutputStream(outputFileName);
         fos.write(mass);
         fos.close();

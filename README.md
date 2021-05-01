@@ -4,6 +4,7 @@
 - [ ] ~~Шифрование S-блоками~~ `sblock encrypt`, `sblock decrypt`
 ## 2 Семестр
 - [x] Генератор псевдослучайных последовательностей `pseudorandom`, `psdgen`
+- [x] RSA шифрование `rsa encrypt`, `rsa decrypt`
 
 ### Сборка
 Чтобы собрать рабочий `.jar` файл нужно вызвать Gradle таск `shadowJar`
