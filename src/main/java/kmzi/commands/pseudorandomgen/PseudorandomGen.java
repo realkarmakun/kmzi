@@ -4,9 +4,6 @@ import picocli.CommandLine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.LongBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.concurrent.Callable;
 
@@ -27,7 +24,6 @@ public class PseudorandomGen implements Callable<Integer> {
     public Integer x;
 
 
-
     @Override
     public Integer call() throws Exception {
         // Счетчики четных нечетных
@@ -44,7 +40,7 @@ public class PseudorandomGen implements Callable<Integer> {
         int currentX = x;
 
         // x(0)
-        BitSet x0AsBitSet = BitSet.valueOf(new byte[] {x.byteValue()});
+        BitSet x0AsBitSet = BitSet.valueOf(new byte[]{x.byteValue()});
 
         // Пустые биты
         BitSet sequence = new BitSet();
@@ -53,7 +49,7 @@ public class PseudorandomGen implements Callable<Integer> {
             // Считаем итерации
             iteration++;
             // Добавляем в последовательность байт текущей итерации
-            BitSet currentByteAsBitSet = BitSet.valueOf(new byte[] {(byte) currentX});
+            BitSet currentByteAsBitSet = BitSet.valueOf(new byte[]{(byte) currentX});
             sequence = addToBitSet(sequence, currentByteAsBitSet);
 
             // Количество установленных битов

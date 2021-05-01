@@ -2,11 +2,10 @@ package kmzi.commands.affine;
 
 import picocli.CommandLine;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Vector;
 import java.util.concurrent.Callable;
 
 

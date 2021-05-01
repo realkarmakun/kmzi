@@ -1,6 +1,6 @@
 package kmzi;
 
-import kmzi.commands.*;
+import kmzi.commands.Cmip;
 import picocli.CommandLine;
 
 public class Application {

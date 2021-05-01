@@ -17,7 +17,9 @@ public class ByteBlock {
         this.blockData[index] = data;
     }
 
-    public byte getAt(int index) { return this.blockData[index]; }
+    public byte getAt(int index) {
+        return this.blockData[index];
+    }
 
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -65,15 +67,6 @@ public class ByteBlock {
             }
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 }

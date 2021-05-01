@@ -47,7 +47,7 @@ public class PREncrypt implements Callable<Integer> {
         for (int i = 0; i < (byteInputFile.length); i++) {
             if (i % keySize == 0) {
                 byteBlock = new ByteBlock(keySize);
-                byteBlock.setAt(i % keySize,byteInputFile[i]);
+                byteBlock.setAt(i % keySize, byteInputFile[i]);
                 openTextBlocks.add(byteBlock);
             } else {
                 byteBlock.setAt(i % keySize, byteInputFile[i]);

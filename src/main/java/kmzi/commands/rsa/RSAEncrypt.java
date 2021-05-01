@@ -20,10 +20,10 @@ public class RSAEncrypt implements Callable<Integer> {
     @CommandLine.Option(names = {"-o", "--output"}, description = "Имя результирующего файла.")
     public String outputFileName = "b.txt";
 
-    @CommandLine.Option(names = {"-q"}, description = "Значение q." , required = true)
+    @CommandLine.Option(names = {"-q"}, description = "Значение q.", required = true)
     public int q;
 
-    @CommandLine.Option(names = {"-p"}, description = "Значение p." , required = true)
+    @CommandLine.Option(names = {"-p"}, description = "Значение p.", required = true)
     public int p;
 
 
@@ -33,21 +33,21 @@ public class RSAEncrypt implements Callable<Integer> {
         int eCandidate;
         // Переберем пары числе e, d для исходных q и p
         System.out.println("Варианты пар (открытый ключ, закрытый ключ) для данных параметров p и q:");
-        for (int i=2000; i<2020; i++){
-            eCandidate= getE(p, q, i);
-            if(eCandidate!=-1) {
+        for (int i = 2000; i < 2020; i++) {
+            eCandidate = getE(p, q, i);
+            if (eCandidate != -1) {
                 System.out.println("e=" + eCandidate + " d=" + getD(p, q, eCandidate));
             }
         }
-        int N = p*q;
+        int N = p * q;
         Scanner in = new Scanner(System.in);
         System.out.print("Введите открытый ключ: ");
         int e = in.nextInt();
-        
+
         byte[] inputFileAsByteArray = Files.readAllBytes(inputFile.toPath());
-        
+
         // Создадим строку из байтов
-        StringBuilder bitsAsString= new StringBuilder();
+        StringBuilder bitsAsString = new StringBuilder();
         for (byte b : inputFileAsByteArray) {
             if (b >= 0) {
                 bitsAsString.append(String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0'));
@@ -58,32 +58,33 @@ public class RSAEncrypt implements Callable<Integer> {
                 bitsAsString.append(str);
             }
         }
-        
+
         // N в бинарном виде
-        StringBuilder resultString= new StringBuilder();
-        String binaryN=Integer.toBinaryString(N);
-        while ( bitsAsString.length() % (binaryN.length() - 1)!= 0 ) {
+        StringBuilder resultString = new StringBuilder();
+        String binaryN = Integer.toBinaryString(N);
+        while (bitsAsString.length() % (binaryN.length() - 1) != 0) {
             bitsAsString.insert(0, "0");
         }
 
         // Строку битов в массив
         int[] bitsArray = stringToBitArray(bitsAsString.toString());
-        for (int i=0; i < bitsArray.length; i++) {
-            int [] mass=new int[binaryN.length()-1];
-            if ( i < bitsArray.length+1-(binaryN.length()-1) ) {
+        for (int i = 0; i < bitsArray.length; i++) {
+            int[] mass = new int[binaryN.length() - 1];
+            if (i < bitsArray.length + 1 - (binaryN.length() - 1)) {
                 System.arraycopy(bitsArray, i, mass, 0, binaryN.length() - 1);
-                int C= binaryToMandatory(mass);
-                BigInteger n= new BigInteger(String.valueOf(N));
-                BigInteger c= new BigInteger(String.valueOf(C));
-                BigInteger r= (c.pow(e)).mod(n);
-                StringBuilder str= new StringBuilder(r.toString(2));
-                while (str.length()<binaryN.length()) {
+                int C = binaryToMandatory(mass);
+                BigInteger n = new BigInteger(String.valueOf(N));
+                BigInteger c = new BigInteger(String.valueOf(C));
+                BigInteger r = (c.pow(e)).mod(n);
+                StringBuilder str = new StringBuilder(r.toString(2));
+                while (str.length() < binaryN.length()) {
                     str.insert(0, "0");
                 }
                 resultString.append(str);
-                i+=binaryN.length()-2;}
+                i += binaryN.length() - 2;
+            }
         }
-        int [] result = stringToBitArray(resultString.toString());
+        int[] result = stringToBitArray(resultString.toString());
         // Массив битов в массив байтов
         byte[] mass = asByte(result);
         // Запишем в файл
