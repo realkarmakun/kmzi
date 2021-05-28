@@ -6,7 +6,7 @@ import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "crc")
+@CommandLine.Command(name = "hash")
 public class CRCHash implements Callable<Integer> {
 
     @CommandLine.Parameters(description = "Коэффиценты G(x)=a₈x⁸+a₇x⁷+a₆x⁶+a₅x⁵+a₄x⁴+a₃x³+a₂x²+a₁x+a₀")

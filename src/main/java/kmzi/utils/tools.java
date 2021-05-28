@@ -64,17 +64,26 @@ public class tools {
 
     // Вычисление d
     public static int getD(int p, int q, int e) {
-        int d = altMonInverse(e, (p - 1) * (q - 1)) % ((p - 1) * (q - 1));
+        int d = altModInverse(e, (p - 1) * (q - 1)) % ((p - 1) * (q - 1));
         return d;
     }
 
     // Альтернативный способ нахождения обратного по модулю
-    public static int altMonInverse(int a, int m) {
+    public static int altModInverse(int a, int m) {
         int inv = -1;
         for (int i = 0; i < m; i++) {
             if (i * a % m == 1) inv = i;
         }
         return inv;
+    }
+
+    public static int gcd(int a,int b) { //функция нахождения НОД
+        while (b !=0) {
+            int c = a%b;
+            a = b;
+            b = c;
+        }
+        return a;
     }
 
 
