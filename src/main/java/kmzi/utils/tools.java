@@ -77,7 +77,8 @@ public class tools {
         return inv;
     }
 
-    public static int gcd(int a,int b) { //функция нахождения НОД
+
+    public static int gcd(int a,int b) {
         while (b !=0) {
             int c = a%b;
             a = b;
