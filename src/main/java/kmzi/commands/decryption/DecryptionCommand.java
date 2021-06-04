@@ -1,7 +1,5 @@
 package kmzi.commands.decryption;
 
-import kmzi.commands.permutation.PRDecrypt;
-import kmzi.commands.permutation.PREncrypt;
 import picocli.CommandLine;
 
 import java.math.BigInteger;
@@ -27,12 +25,12 @@ public class DecryptionCommand implements Callable<Integer> {
             for (int y=2; y<N; y++){
                 if((x*x)%N==(y*y)%N) {
                     if(x!=y){
-                        int m=x-y;
+                        int m = -y;
                         if(m<0) m=-m;
-                        int d=gcd(m, N);
+                        int d = gcd(m, N);
                         if((d!=1)&&(d!=N)) p=d;
-                        x=N;
-                        y=N;
+                        x = N;
+                        y = N;
                     }}
             }
         }
@@ -55,7 +53,7 @@ public class DecryptionCommand implements Callable<Integer> {
         int q=N/p;
         int d=d(e, p, q);
         BigInteger n = new BigInteger(String.valueOf(p*q));
-        BigInteger c =new BigInteger(String.valueOf(C));
+        BigInteger c = new BigInteger(String.valueOf(C));
         //Расшифровывает сообщение.
         BigInteger M=c.pow(d).mod(n);
         System.out.println("Факторизация N: p="+p+" q="+q+"\nЗакрытый ключ: d="+d+"\nРасшифрованное сообщение: M="+M);
